@@ -1,0 +1,5 @@
+# 脚手架自检与 workflow 试跑产物
+.tmp/
+node_modules/
+*.log
+.DS_Store

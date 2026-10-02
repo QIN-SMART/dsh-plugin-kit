@@ -1,0 +1,56 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  skill:
+    name: skill + template (${{ matrix.os }} / node ${{ matrix.node }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      # 1) skill 本身要同时被 DSH 与 Codex 的规则接受
+      - name: Validate the skill for both hosts
+        run: node dsh-plugin-authoring/tools/validate-skill.mjs dsh-plugin-authoring/
+      # 2) 模板必须真的能生成出一个能跑、能测的插件
+      #    （模板不是被直接执行的代码，坏了没人会发现 —— 所以每次都要生成一遍再跑它自己的测试）
+      - name: Generate a plugin from the template and test it
+        shell: bash
+        run: |
+          node dsh-plugin-authoring/tools/new-plugin.mjs \
+            --dir .tmp/dsh-demo --name dsh-demo \
+            --title-zh 自检 --desc-zh "模板自检" --desc-en "template selftest" --author CI
+          node --test .tmp/dsh-demo/test/verify.mjs
+
+  hygiene:
+    name: repo hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: No machine-specific absolute paths
+        shell: bash
+        run: |
+          if grep -rn --exclude-dir=.git --exclude-dir=.tmp -E '/Users/[a-z]|/home/[a-z]' . ; then
+            echo "::error::found machine-specific absolute paths (see above)"; exit 1
+          fi
+          echo "clean"
+      - name: Scaffolder and publisher parse
+        run: |
+          node --check dsh-plugin-authoring/tools/new-plugin.mjs
+          node --check dsh-plugin-authoring/tools/validate-skill.mjs
+          node --check dsh-plugin-authoring/template/tools/publish-to-github.mjs
+          node --check share/share.mjs
+          node dsh-plugin-authoring/template/tools/publish-to-github.mjs --dry-run | tail -3

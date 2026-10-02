@@ -1,0 +1,10 @@
+# 工作区临时产物
+.tmp/
+node_modules/
+*.log
+.DS_Store
+
+# 真实界面截图（会拍到本机真实会话标题，不要提交）
+# 仓库里放的是合成数据的截图
+docs/real-ui.png
+docs/real-ui-*.png

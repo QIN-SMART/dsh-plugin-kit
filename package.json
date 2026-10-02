@@ -1,0 +1,33 @@
+{
+  "name": "dsh-plugin-kit",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness plugin authoring kit: a skill, a tested repository template, a scaffolder, a cross-host skill validator, a GitHub REST publisher and a pitfall library.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node dsh-plugin-authoring/tools/validate-skill.mjs dsh-plugin-authoring/",
+    "selftest": "node dsh-plugin-authoring/tools/new-plugin.mjs --dir .tmp/dsh-demo --name dsh-demo --desc-zh 自检 --desc-en selftest && node --test .tmp/dsh-demo/test/verify.mjs",
+    "publish:github": "node tools/publish-to-github.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QIN-SMART/dsh-plugin-kit.git"
+  },
+  "homepage": "https://github.com/QIN-SMART/dsh-plugin-kit#readme",
+  "bugs": {
+    "url": "https://github.com/QIN-SMART/dsh-plugin-kit/issues"
+  },
+  "author": "QIN-SMART",
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "plugin-development",
+    "agent-skill",
+    "template"
+  ],
+  "engines": {
+    "node": "^22.19.0 || >=24"
+  },
+  "license": "MIT"
+}

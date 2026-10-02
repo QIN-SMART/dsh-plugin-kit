@@ -1,0 +1,12 @@
+# __PKG__ — host plugin insertion.
+#
+# The host half is deliberately inert: all behaviour lives in the browser half
+# (lib/client.js). This row exists so the package is an ENABLED Loader entry,
+# which is what makes the host-side client-modules scanner publish
+# `exports["./client"]` to the browser as a module.
+#
+# Keep the id stable: it is also the namespace you would use for a future
+# host-side Config (`ctx.configForms.get('__ID__')`).
+- insert:
+    - id: __ID__
+      name: __PKG__

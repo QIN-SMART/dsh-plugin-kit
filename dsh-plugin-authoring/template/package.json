@@ -1,0 +1,56 @@
+{
+  "name": "__PKG__",
+  "version": "0.1.0",
+  "description": "__DESC_EN__",
+  "icon": "./icon.svg",
+  "type": "module",
+  "main": "index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./client": "./lib/client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.mjs",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "icon.svg",
+    "locale/*.json",
+    "README.md",
+    "README_EN.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24"
+  },
+  "scripts": {
+    "test": "node --test test/verify.mjs",
+    "publish:github": "node tools/publish-to-github.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/__AUTHOR__/__PKG__.git"
+  },
+  "homepage": "https://github.com/__AUTHOR__/__PKG__#readme",
+  "bugs": {
+    "url": "https://github.com/__AUTHOR__/__PKG__/issues"
+  },
+  "author": "__AUTHOR__",
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin"
+  ],
+  "license": "MIT"
+}
